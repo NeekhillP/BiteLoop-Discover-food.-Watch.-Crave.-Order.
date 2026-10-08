@@ -19,4 +19,13 @@ authRouter.post('/user/register', authController.registerUserController)
  */
 authRouter.post('/user/login', authController.loginUserController)
 
+
+/**
+ * @route GET /api/auth/user/logout
+ * @desc Logout a user
+ * @access Public
+ */
+authRouter.get('/user/logout', authController.logoutUserController)
+
+
 export default authRouter;
