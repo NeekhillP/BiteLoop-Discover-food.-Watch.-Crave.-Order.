@@ -33,3 +33,13 @@ export async function createFood(req, res){
         return res.status(500).json({ message: 'Failed to upload food item' });
     }
 }
+
+
+export async function getAllFood(req,res){
+    const foodItems = await foodItemModel.find({})
+
+    res.status(200).json({
+        message: 'Food items retrieved successfully',
+        foodItems
+    })
+}

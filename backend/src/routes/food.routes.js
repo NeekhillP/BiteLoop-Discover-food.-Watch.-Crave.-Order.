@@ -1,6 +1,6 @@
 import Router from "express";
 import * as foodController from "../controllers/food.controller.js";
-import { authFoodPartnerMiddleware } from "../middlewares/auth.middleware.js";
+import { authFoodPartnerMiddleware, authUserMiddleware } from "../middlewares/auth.middleware.js";
 import multer from "multer";
 
 const foodRouter = Router();
@@ -21,6 +21,12 @@ foodRouter.post('/',
     foodController.createFood
 )
 
-
+/**
+ * @route GET /api/food/ [protected route]
+ * @desc Get all food items
+ */
+foodRouter.get('/', 
+    authUserMiddleware,
+    foodController.getAllFood)
 
 export default foodRouter;
