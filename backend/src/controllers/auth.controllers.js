@@ -123,7 +123,7 @@ export async function logoutUserController(req, res){
  */
 export async function registerFoodPartnerController(req, res){
     try{
-        const {name, email, password} = req.body;
+        const {name, email, password, phone, address, contactName} = req.body;
 
         const existingFoodPartner = await foodPartnerModel.findOne({
             email
@@ -140,7 +140,10 @@ export async function registerFoodPartnerController(req, res){
         const newFoodPartner = await foodPartnerModel.create({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            phone,
+            address,
+            contactName
         })
 
         const token = jwt.sign({
@@ -161,7 +164,10 @@ export async function registerFoodPartnerController(req, res){
             foodPartner: {
                 id: newFoodPartner._id,
                 name: newFoodPartner.name,
-                email: newFoodPartner.email
+                email: newFoodPartner.email,
+                phone: newFoodPartner.phone,
+                address: newFoodPartner.address,
+                contactName: newFoodPartner.contactName
             }
         })
 
