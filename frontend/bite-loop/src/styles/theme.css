@@ -24,6 +24,16 @@
   --space-7: 48px;
   --auth-width: 440px;
   --duration: 150ms;
+  /* Video overlays retain contrast in either system theme. */
+  --feed-background: #090d0b;
+  --feed-text: #ffffff;
+  --feed-button-hover: #e6eee9;
+  --feed-shade-top: rgba(0, 0, 0, 0.5);
+  --feed-shade-bottom: rgba(0, 0, 0, 0.9);
+  --feed-control-background: rgba(0, 0, 0, 0.45);
+  --feed-control-hover: rgba(0, 0, 0, 0.7);
+  --feed-control-border: rgba(255, 255, 255, 0.45);
+  --feed-scrollbar: #526b5c;
 }
 @media (prefers-color-scheme: dark) {
   :root {

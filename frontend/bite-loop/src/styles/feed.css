@@ -1,0 +1,54 @@
+/* Scroll ownership stays on this route, keeping authentication forms naturally scrollable. */
+.food-feed {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  background: var(--feed-background);
+  color: var(--feed-text);
+  scrollbar-color: var(--feed-scrollbar) var(--feed-background);
+}
+
+.food-feed:focus-visible { outline-offset: -4px; }
+.food-feed::-webkit-scrollbar-track { background: var(--feed-background); }
+.food-feed::-webkit-scrollbar-thumb { background: var(--feed-scrollbar); border-color: var(--feed-background); }
+.food-reel {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  isolation: isolate;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  overflow: hidden;
+  background: var(--feed-background);
+}
+
+.food-reel-video, .food-reel-shade { position: absolute; inset: 0; width: 100%; height: 100%; }
+.food-reel-video { object-fit: cover; z-index: -2; }
+.food-reel-shade { z-index: -1; pointer-events: none; background: linear-gradient(to bottom, var(--feed-shade-top), transparent 25%, transparent 40%, var(--feed-shade-bottom)); }
+.food-reel-header { display: flex; justify-content: space-between; align-items: center; padding: max(var(--space-5), env(safe-area-inset-top)) var(--space-5); }
+.food-reel-brand { font-family: var(--font-display); font-size: 24px; font-weight: 700; letter-spacing: -1px; }
+.food-reel-label { font-size: 14px; font-weight: 600; }
+.food-reel-bottom { position: absolute; bottom: 0; left: 0; width: 100%; padding: var(--space-5); padding-bottom: max(var(--space-6), env(safe-area-inset-bottom)); }
+.food-reel-controls { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); }
+.food-reel-controls button { min-height: 44px; padding: var(--space-2) var(--space-4); border: 1px solid var(--feed-control-border); border-radius: var(--radius-pill); color: var(--feed-text); background: var(--feed-control-background); cursor: pointer; font-size: 14px; }
+.food-reel-controls button:hover { background: var(--feed-control-hover); }
+.food-reel-controls button:active { background: var(--feed-shade-bottom); }
+.food-reel-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
+.food-reel-name { font-size: 22px; line-height: 1.25; margin-bottom: var(--space-2); max-width: 640px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.food-reel-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; font-size: 16px; line-height: 1.5; max-width: 640px; margin: 0 0 var(--space-4); }
+.food-reel-store { width: min(100%, 320px); min-height: 48px; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); background: var(--feed-text); color: var(--feed-background); border: 1px solid var(--feed-text); border-radius: var(--radius-control); font-weight: 600; cursor: pointer; }
+.food-reel-store:hover:enabled { background: var(--feed-button-hover); }
+.food-reel-store:active:enabled { transform: translateY(1px); }
+.food-reel-store:disabled { cursor: not-allowed; opacity: 0.75; }
+.food-reel-error { position: absolute; top: 40%; left: var(--space-5); right: var(--space-5); text-align: center; }
+.feed-state { min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: var(--space-4); padding: var(--space-5); text-align: center; }
+.feed-state-brand { font-family: var(--font-display); font-weight: 700; font-size: 24px; color: var(--color-accent); }
+.feed-state h1 { font-size: clamp(24px, 5vw, 32px); }
+.feed-state > p:not(.feed-state-brand) { color: var(--color-muted); }
+.feed-state-action { min-height: 48px; padding: var(--space-3) var(--space-5); background: var(--color-accent); color: var(--color-on-accent); border: 0; border-radius: var(--radius-control); font-weight: 600; text-decoration: none; cursor: pointer; }
+.feed-state-action:hover { background: var(--color-accent-hover); }
+@media (max-height: 500px) { .food-reel-header { padding-block: var(--space-3); } .food-reel-bottom { padding-block: var(--space-3); } .food-reel-controls { margin-bottom: var(--space-2); } }
+@media (prefers-reduced-motion: reduce) { .food-feed { scroll-behavior: auto; } .food-reel-store:active:enabled { transform: none; } }
+@media (forced-colors: active) { .food-feed { scrollbar-color: auto; } }
