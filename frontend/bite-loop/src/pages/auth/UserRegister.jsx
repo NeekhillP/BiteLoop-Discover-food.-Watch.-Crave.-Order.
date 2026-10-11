@@ -1,4 +1,34 @@
 import AuthPage from '../../components/AuthPage.jsx'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
 export default function UserRegister() {
-  return <AuthPage role="user" mode="register" />
+  const navigate = useNavigate()
+
+  const onSubmit = async (event) => {
+    event.preventDefault()
+
+    const formData = new FormData(event.currentTarget)
+    const data = {
+      fullName: formData.get('fullName'),
+      email: formData.get('email'),
+      password: formData.get('password'),
+    }
+
+    try {
+      await axios.post(
+        'http://localhost:3000/api/auth/user/register',
+        data,
+        { withCredentials: true }
+      )
+
+      navigate('/')
+    } catch (error) {
+      console.error(
+        error.response?.data?.message || 'Registration failed'
+      )
+    }
+  }
+
+  return <AuthPage role="user" mode="register" onSubmit={onSubmit} />
 }

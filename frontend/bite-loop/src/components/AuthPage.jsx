@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import '../styles/auth.css'
 
-export default function AuthPage({ role, mode }) {
+export default function AuthPage({ role, mode, onSubmit }) {
   const isPartner = role === 'food-partner'
   const isRegister = mode === 'register'
   const title = isRegister
@@ -26,7 +26,10 @@ export default function AuthPage({ role, mode }) {
             ? (isPartner ? 'Create an account to share what you cook.' : 'Create an account to discover food you love.')
             : (isPartner ? 'Log in to your food partner account.' : 'Log in to pick up where you left off.')}</p>
         </header>
-        <form className="auth-form" noValidate aria-label={`${isPartner ? 'Food partner' : 'User'} ${mode}`}>
+        <form className="auth-form" 
+        noValidate 
+        onSubmit={onSubmit}
+        aria-label={`${isPartner ? 'Food partner' : 'User'} ${mode}`}>
           {isRegister && (
             <div className="auth-field">
               <label htmlFor="auth-name">{isPartner ? 'Business name' : 'Full name'}</label>
@@ -57,7 +60,7 @@ export default function AuthPage({ role, mode }) {
             <label htmlFor="auth-password">Password</label>
             <input id="auth-password" name="password" type="password" autoComplete={isRegister ? 'new-password' : 'current-password'} placeholder={isRegister ? 'Create a password' : 'Enter your password'} required />
           </div>
-          <button className="auth-primary" type="button">{isRegister ? 'Create account' : 'Log in'}<span aria-hidden="true">→</span></button>
+          <button className="auth-primary" type="submit">{isRegister ? 'Create account' : 'Log in'}<span aria-hidden="true">→</span></button>
         </form>
         <p className="auth-alternate">
           {isRegister ? 'Already have an account?' : 'New to BiteLoop?'}{' '}
