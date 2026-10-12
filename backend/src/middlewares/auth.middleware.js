@@ -1,4 +1,5 @@
 import foodPartnerModel from "../models/foodPartner.model.js";
+import userModel from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 
 
@@ -19,6 +20,11 @@ export async function authFoodPartnerMiddleware(req, res, next){
             decoded.id
         )
 
+        if(!foodPartner) {
+            return res.status(401).json({
+                message: "Please log in as a food partner to access this resource"
+            })
+        }
         req.foodPartner = foodPartner;
 
         return next();
@@ -41,10 +47,13 @@ export async function authUserMiddleware(req, res, next){
     try{
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        const user = await foodPartnerModel.findById(
+        const user = await userModel.findById(
             decoded.id
         )
 
+        if (!user) {
+            return res.status(401).json({ message: "Please log in as a user to access this resource" });
+        }
         req.user = user;
 
         return next();

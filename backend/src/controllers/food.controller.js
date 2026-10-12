@@ -16,7 +16,7 @@ export async function createFood(req, res){
 
         const fileUploadResult = await uploadFile(req.file.buffer, fileName);
 
-        const foodItem = new foodItemModel({
+        const foodItem = await foodItemModel.create({
             name, 
             video: fileUploadResult.url,
             description,
@@ -30,16 +30,26 @@ export async function createFood(req, res){
         
     } catch(err){
         console.log(err);
-        return res.status(500).json({ message: 'Failed to upload food item' });
+        if (err.name === 'ValidationError') {
+            return res.status(400).json({ message: 'Please provide a name, video, food partner, and valid price.' });
+        }
+        return res.status(500).json({ message: 'Failed to create food item' });
     }
 }
 
 
 export async function getAllFood(req,res){
-    const foodItems = await foodItemModel.find({})
+    try {
+        const foodItems = await foodItemModel.find({})
+            .populate('foodPartner', 'name')
+            .lean();
 
-    res.status(200).json({
-        message: 'Food items retrieved successfully',
-        foodItems
-    })
+        return res.status(200).json({
+            message: 'Food items retrieved successfully',
+            foodItems
+        });
+    } catch (err) {
+        console.error('Failed to retrieve food items:', err.message);
+        return res.status(500).json({ message: 'Failed to retrieve food items. Please try again.' });
+    }
 }

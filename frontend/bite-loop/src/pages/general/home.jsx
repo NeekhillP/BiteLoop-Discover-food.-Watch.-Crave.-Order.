@@ -2,23 +2,19 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import FoodReel from '../../components/FoodReel.jsx'
-import { demoFoodItems } from '../../data/demoFood.js'
 import '../../styles/feed.css'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/+$/, '')
-// Set to false when you want to load saved food items from the backend.
-const USE_DUMMY_DATA = true
 
 export default function Home({ onVisitStore }) {
-  const [foodItems, setFoodItems] = useState(USE_DUMMY_DATA ? demoFoodItems : [])
-  const [loading, setLoading] = useState(!USE_DUMMY_DATA)
+  const [foodItems, setFoodItems] = useState([])
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [needsLogin, setNeedsLogin] = useState(false)
   const [retry, setRetry] = useState(0)
   const feedRef = useRef(null)
 
   useEffect(() => {
-    if (USE_DUMMY_DATA) return
     const controller = new AbortController()
     axios.get(`${API_URL}/api/food/`, {
       withCredentials: true, signal: controller.signal, timeout: 15000,

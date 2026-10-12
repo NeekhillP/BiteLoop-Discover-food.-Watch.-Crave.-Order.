@@ -38,6 +38,8 @@
 .food-reel-controls button:disabled { opacity: 0.5; cursor: not-allowed; }
 .food-reel-name { font-size: 22px; line-height: 1.25; margin-bottom: var(--space-2); max-width: 640px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .food-reel-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; font-size: 16px; line-height: 1.5; max-width: 640px; margin: 0 0 var(--space-4); }
+.food-reel-details { display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-4); max-width: 640px; margin-bottom: var(--space-2); font-size: 14px; }
+.food-reel-details span { max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 .food-reel-store { width: min(100%, 320px); min-height: 48px; display: flex; justify-content: space-between; align-items: center; gap: var(--space-4); padding: var(--space-3) var(--space-4); background: var(--feed-text); color: var(--feed-background); border: 1px solid var(--feed-text); border-radius: var(--radius-control); font-weight: 600; cursor: pointer; }
 .food-reel-store:hover:enabled { background: var(--feed-button-hover); }
 .food-reel-store:active:enabled { transform: translateY(1px); }

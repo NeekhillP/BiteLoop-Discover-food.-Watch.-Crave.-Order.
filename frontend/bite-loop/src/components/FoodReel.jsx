@@ -6,6 +6,8 @@ export default function FoodReel({ food, feedRef, onVisitStore }) {
   const [playing, setPlaying] = useState(false)
   const [muted, setMuted] = useState(true)
   const [failed, setFailed] = useState(false)
+  const partnerId = typeof food.foodPartner === 'object' ? food.foodPartner?._id : food.foodPartner
+  const storeName = typeof food.foodPartner === 'object' ? food.foodPartner?.name : null
 
   useEffect(() => {
     const video = videoRef.current
@@ -50,8 +52,12 @@ export default function FoodReel({ food, feedRef, onVisitStore }) {
           <button type="button" onClick={() => setMuted(value => !value)} disabled={failed} aria-pressed={!muted} aria-label={muted ? 'Unmute video' : 'Mute video'}>{muted ? 'Sound off' : 'Sound on'}</button>
         </div>
         <h2 className="food-reel-name">{food.name}</h2>
+        <p className="food-reel-details">
+          {storeName && <span>{storeName}</span>}
+          {typeof food.price === 'number' && <span>Price: {food.price.toLocaleString('en-US')}</span>}
+        </p>
         <p className="food-reel-description">{food.description || 'Discover something delicious.'}</p>
-        <button className="food-reel-store" type="button" onClick={() => onVisitStore?.(food.foodPartner)} disabled={!onVisitStore || !food.foodPartner} title={!onVisitStore ? 'Store page coming soon' : undefined}>
+        <button className="food-reel-store" type="button" onClick={() => onVisitStore?.(partnerId)} disabled={!onVisitStore || !partnerId} title={!onVisitStore ? 'Store page coming soon' : undefined}>
           Visit store<span aria-hidden="true">↗</span>
         </button>
       </div>
