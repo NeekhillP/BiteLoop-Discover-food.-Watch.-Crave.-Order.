@@ -1,6 +1,31 @@
 import foodItemModel from '../models/foodItem.model.js';
 import { uploadFile } from '../services/storage.service.js';
 import { v4 as uuidv4 } from 'uuid';
+import mongoose from 'mongoose';
+import foodPartnerModel from '../models/foodPartner.model.js';
+
+export async function getFoodPartnerProfile(req, res) {
+    const { partnerId } = req.params;
+
+    if (!mongoose.isObjectIdOrHexString(partnerId)) {
+        return res.status(400).json({ message: 'Invalid store ID.' });
+    }
+
+    try {
+        const foodPartner = await foodPartnerModel.findById(partnerId).select('name address').lean();
+
+        if (!foodPartner) return res.status(404).json({ message: 'This store could not be found.' });
+
+        const foodItems = await foodItemModel.find({ foodPartner: partnerId })
+            .select('name description video price foodPartner')
+            .sort({ _id: -1 }).lean();
+            
+        return res.status(200).json({ foodPartner, foodItems, totalMeals: foodItems.length });
+    } catch (err) {
+        console.error('Failed to retrieve store profile:', err.message);
+        return res.status(500).json({ message: 'Could not load this store. Please try again.' });
+    }
+}
 
 
 export async function createFood(req, res){

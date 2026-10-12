@@ -1,9 +1,10 @@
 import Router from "express";
 import * as foodController from "../controllers/food.controller.js";
-import { authFoodPartnerMiddleware, authUserMiddleware } from "../middlewares/auth.middleware.js";
+import { authFoodPartnerMiddleware, authUserMiddleware, authProfileViewerMiddleware } from "../middlewares/auth.middleware.js";
 import multer from "multer";
 
 const foodRouter = Router();
+
 
 
 const upload = multer({
@@ -28,5 +29,12 @@ foodRouter.post('/',
 foodRouter.get('/', 
     authUserMiddleware,
     foodController.getAllFood)
+
+/**
+ * @route GET /api/food/partner/:partnerId [protected route]
+ * @desc Get a food partner's profile and their food items
+ */
+foodRouter.get('/partner/:partnerId', authProfileViewerMiddleware, foodController.getFoodPartnerProfile);
+
 
 export default foodRouter;

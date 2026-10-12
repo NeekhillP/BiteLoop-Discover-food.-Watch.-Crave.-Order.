@@ -6,7 +6,7 @@ import '../../styles/feed.css'
 
 const API_URL = (import.meta.env.VITE_API_URL || 'http://localhost:3000').replace(/\/+$/, '')
 
-export default function Home({ onVisitStore }) {
+export default function Home() {
   const [foodItems, setFoodItems] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -64,7 +64,7 @@ export default function Home({ onVisitStore }) {
 
   return (
     <main className="food-feed" ref={feedRef} tabIndex={0} aria-label="Food video feed. Scroll or use arrow keys for the next video." onKeyDown={handleKeyDown}>
-      {foodItems.map(food => <FoodReel key={food._id} food={food} feedRef={feedRef} onVisitStore={onVisitStore} />)}
+      {foodItems.map(food => <FoodReel key={food._id} food={food} feedRef={feedRef} />)}
     </main>
   )
 }

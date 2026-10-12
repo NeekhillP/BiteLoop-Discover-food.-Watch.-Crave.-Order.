@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 
-export default function FoodReel({ food, feedRef, onVisitStore }) {
+export default function FoodReel({ food, feedRef }) {
   const cardRef = useRef(null)
   const videoRef = useRef(null)
   const [playing, setPlaying] = useState(false)
@@ -57,9 +58,11 @@ export default function FoodReel({ food, feedRef, onVisitStore }) {
           {typeof food.price === 'number' && <span>Price: {food.price.toLocaleString('en-US')}</span>}
         </p>
         <p className="food-reel-description">{food.description || 'Discover something delicious.'}</p>
-        <button className="food-reel-store" type="button" onClick={() => onVisitStore?.(partnerId)} disabled={!onVisitStore || !partnerId} title={!onVisitStore ? 'Store page coming soon' : undefined}>
-          Visit store<span aria-hidden="true">↗</span>
-        </button>
+        {partnerId ? (
+          <Link className="food-reel-store" to={`/food-partner/${partnerId}`}>
+            Visit store<span aria-hidden="true">↗</span>
+          </Link>
+        ) : <button className="food-reel-store" type="button" disabled title="Store unavailable">Visit store</button>}
       </div>
     </article>
   )
